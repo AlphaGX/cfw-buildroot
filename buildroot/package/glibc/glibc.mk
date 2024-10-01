@@ -174,6 +174,7 @@ ifeq ($(BR2_OPTIMIZE_FAST),y)
 GLIBC_CFLAGS += -O2
 endif
 
+# --- CFW --- > "--disable-mathvec" and "--enable-crypt"
 define GLIBC_CONFIGURE_CMDS
 	mkdir -p $(@D)/build
 	# Do the configuration
@@ -194,7 +195,8 @@ define GLIBC_CONFIGURE_CMDS
 		--disable-werror \
 		--without-gd \
 		--with-headers=$(STAGING_DIR)/usr/include \
-		$(if $(BR2_aarch64)$(BR2_aarch64_be),--enable-mathvec) \
+		$(if $(BR2_aarch64)$(BR2_aarch64_be),--disable-mathvec) \
+		--enable-crypt \
 		$(GLIBC_CONF_OPTS))
 	$(GLIBC_ADD_MISSING_STUB_H)
 endef
@@ -204,8 +206,9 @@ endef
 # to install the libraries, and nothing more.
 #
 
+# --- CFW --- > "libcrypt.so.*"
 GLIBC_LIBS_LIB = \
-	ld*.so.* libanl.so.* libc.so.* libdl.so.* libgcc_s.so.* \
+	ld*.so.* libanl.so.* libc.so.* libcrypt.so.* libdl.so.* libgcc_s.so.* \
 	libm.so.* libpthread.so.* libresolv.so.* librt.so.* \
 	libutil.so.* libnss_files.so.* libnss_dns.so.* libmvec.so.*
 
