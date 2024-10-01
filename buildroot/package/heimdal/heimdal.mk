@@ -10,9 +10,9 @@ HOST_HEIMDAL_DEPENDENCIES = host-e2fsprogs host-ncurses host-pkgconf
 HOST_HEIMDAL_AUTORECONF = YES
 HEIMDAL_INSTALL_STAGING = YES
 # static because of -fPIC issues with e2fsprogs on x86_64 host
+# --- CFW ---> - ignore above, works fine. -fPIC required for Qt6
+# --- CFW ---> removed --disable-shared & --enable-static options
 HOST_HEIMDAL_CONF_OPTS = \
-	--disable-shared \
-	--enable-static \
 	--without-openldap \
 	--without-capng \
 	--with-db-type-preference= \
@@ -30,6 +30,8 @@ HOST_HEIMDAL_CONF_OPTS = \
 
 # Don't use compile_et from e2fsprogs as it raises a build failure with samba4
 HOST_HEIMDAL_CONF_ENV = ac_cv_prog_COMPILE_ET=no MAKEINFO=true
+# --- CFW ---> - add the -fPIC flag.
+HOST_HEIMDAL_CONF_ENV += CFLAGS="$(HOST_CFLAGS) -fPIC"
 HEIMDAL_LICENSE = BSD-3-Clause
 HEIMDAL_LICENSE_FILES = LICENSE
 HEIMDAL_CPE_ID_VALID = YES
