@@ -11,6 +11,9 @@ ESPEAK_SITE = http://downloads.sourceforge.net/project/espeak/espeak/espeak-$(ES
 ESPEAK_LICENSE = GPL-3.0+
 ESPEAK_LICENSE_FILES = License.txt
 
+# emulation-station
+ESPEAK_INSTALL_STAGING = YES
+
 ifeq ($(BR2_PACKAGE_ESPEAK_AUDIO_BACKEND_ALSA),y)
 ESPEAK_AUDIO_BACKEND = portaudio
 ESPEAK_DEPENDENCIES += portaudio
@@ -39,6 +42,11 @@ endef
 define ESPEAK_INSTALL_TARGET_CMDS
 	$(TARGET_MAKE_ENV) $(MAKE) -C $(@D)/src $(TARGET_CONFIGURE_OPTS) \
 		AUDIO="$(ESPEAK_AUDIO_BACKEND)" DESTDIR="$(TARGET_DIR)" install
+endef
+
+# emulation-station
+define ESPEAK_INSTALL_STAGING_CMDS
+	$(TARGET_MAKE_ENV) $(MAKE) -C $(@D)/src DESTDIR="$(STAGING_DIR)" install
 endef
 
 $(eval $(generic-package))
