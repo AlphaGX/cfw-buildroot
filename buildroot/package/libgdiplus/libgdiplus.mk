@@ -16,7 +16,13 @@ LIBGDIPLUS_INSTALL_STAGING = YES
 # github tarball doesn't have configure
 LIBGDIPLUS_AUTORECONF = YES
 
-LIBGDIPLUS_DEPENDENCIES = xlib_libXft libglib2 cairo libpng host-pkgconf
+LIBGDIPLUS_DEPENDENCIES = libglib2 cairo libpng host-pkgconf
+# --- CFW --- >
+ifeq ($(BR2_PACKAGE_XSERVER_XORG_SERVER),y)
+LIBGDIPLUS_DEPENDENCIES = xlib_libXft
+else
+LIBGDIPLUS_CONF_OPTS += --without-x11
+endif
 
 ifeq ($(BR2_PACKAGE_GIFLIB),y)
 LIBGDIPLUS_CONF_OPTS += --with-libgif
