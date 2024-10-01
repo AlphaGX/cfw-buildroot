@@ -1,0 +1,18 @@
+diff -u a/meson.build b/meson.build
+--- a/meson.build      2024-09-27 13:51:07.727749974 +0900
++++ b/meson.build      2024-09-27 13:56:01.787934274 +0900
+@@ -264,14 +264,7 @@
+     ['X11/extensions/shmstr.h', {'extra-headers': extra_headers}],
+   ]
+   deps += [x11_dep, xext_dep]
+-  res = cc.run(files('meson-cc-tests/ipc_rmid_deferred_release.c'),
+-    dependencies: [x11_dep, xext_dep],
+-    name: 'shmctl IPC_RMID allowes subsequent attaches')
+-
+-  if res.returncode() == 0
+-    conf.set('IPC_RMID_DEFERRED_RELEASE', 1)
+   endif
+-endif
+
+ if feature_conf.get('CAIRO_HAS_XLIB_SURFACE', 0) == 1
+   xrender_dep = dependency('xrender', required: get_option('xlib'),
